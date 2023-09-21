@@ -10,8 +10,6 @@ const initWebRoute = (app) => {
     router.get("/20110415/:id", mygroupController.getMyGroupById)
 
     router.get("/message/:id", mygroupController.getNameById)
-
-    router.get("/message", mygroupController.getNameById)
     return app.use("/", router);
 }
 
