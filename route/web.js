@@ -1,15 +1,16 @@
-import mygroupController from "../controller/controllers.mygroupController"
+import postsController from "../controller/controllers.postsController"
 import express from "express";
 let router = express.Router();
 
 const initWebRoute = (app) => {
-    router.get("/", mygroupController.getMyGroup);
+    router.get("/", postsController.getPostList);
 
-    router.post("/20110415/:id", mygroupController.addGroupMember)
+    router.get("/:id", postsController.getPostById)
 
-    router.get("/20110415/:id", mygroupController.getMyGroupById)
+    router.post("/form_post", postsController.addPost)
 
-    router.get("/message/:id", mygroupController.getNameById)
+    router.post("/:id", postsController.editDeleteCommentPost)
+
     return app.use("/", router);
 }
 

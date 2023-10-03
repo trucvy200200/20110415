@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogs</title>
+    <link rel="stylesheet" href="/css/detail.css">
+    <link rel="stylesheet" href="/css/comment.css">
+    <link rel="stylesheet" href="/css/modal.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="detail">
+        <h2>Welcome to my blog</h2>
+        <div class="btn-group">
+            <button class="btn-edit" data-toggle="modal" data-target="#myModal">Edit</button>
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <div class="modal-title">Edit Post</div>
+                        </div>
+                        <form method="post" action="http://localhost:5000/{{id}}?method=edit">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <p>Title</p>
+                                    <input type="text" name="title" value="{{title}}" required />
+                                </div>
+                                <div class="form-group">
+                                    <p>Content</p>
+                                    <textarea name="body" required>{{body}}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <p>Author</p>
+                                    <input type="text" name="author" value="{{author}}" required />
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn-submit" type="submit">Submit</button>
+                                <button type="button" class=" btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <form class="form-delete" method="post" action="http://localhost:5000/{{id}}?method=delete">
+                <button class="btn-delete" onclick="">Delete</button>
+            </form>
+        </div>
+        <div class="blog-container">
+            <div class="blog-item">
+                <h3>{{title}}</h3>
+                <img src={{image}} />
+                <p>{{body}}</p>
+                <h4 style="text-align: right;">Author: {{author}} ({{createdAt}})</h4>
+            </div>
+            <div class="comment">
+                <h3 style="text-align: left;">Comments</h3>
+                <form method="post" action="http://localhost:5000/{{id}}?method=comment">
+                    <textarea type="text" name="comment" placeholder="Input text here"></textarea>
+                    <button type="submit" class="btn-edit">Send</button>
+                </form>
+                <div class="comment-list">
+                    {{#each comments}}
+                    <div class="comment-item">
+                        <div class="comment-header">
+                            <div class="comment-author">{{author}}</div>
+                            <div class="comment-time">{{createdAt}}</div>
+                        </div>
+                        <p>{{body}}</p>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>

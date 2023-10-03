@@ -11,8 +11,6 @@ configViewEngine(app);
 //init web route
 initWebRoute(app)
 
-app.use(express.json())
-
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
 })
