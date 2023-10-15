@@ -3,6 +3,7 @@ var exphbs = require('hbs');
 const bodyParser = require('body-parser')
 const configViewEngine = (app) => {
     app.use(express.static('./public'))
+    app.use(express.json())
     app.set('view engine', '.hbs');
     app.use(bodyParser.urlencoded({ extended: false }))
     app.set("views", "./views")

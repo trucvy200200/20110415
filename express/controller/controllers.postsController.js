@@ -3,7 +3,7 @@ import { posts } from "../models/models.posts";
 
 function getPostList(req, res) {
     console.log(req.method, req.url);
-    return res.render("index.hbs", { posts: posts });
+    return res.json(posts);
 }
 
 function addPost(req, res) {
@@ -14,7 +14,7 @@ function addPost(req, res) {
     let currentDate = `${month}/${day}/${year}`;
     const id = Math.floor(Math.random() * 100)
 
-    posts.push({
+    const object = {
         id: id.toString(),
         title: req.body.title,
         body: req.body.body,
@@ -22,9 +22,10 @@ function addPost(req, res) {
         createdAt: currentDate,
         image: "image/image.png",
         comments: []
-    });
+    }
+    posts.push(object);
 
-    res.redirect(303, '/')
+    return res.json(object);
 }
 
 function editDeleteCommentPost(req, res) {
@@ -32,7 +33,7 @@ function editDeleteCommentPost(req, res) {
     if (req.query.method === "edit") {
         const updatePostIndex = posts.findIndex((item) => item.id === idLink);
         const postById = posts[updatePostIndex];
-        posts[updatePostIndex] = {
+        const object = {
             id: idLink,
             title: req.body.title,
             body: req.body.body,
@@ -41,12 +42,13 @@ function editDeleteCommentPost(req, res) {
             image: postById.image,
             comments: postById.comments
         }
-        res.redirect(303, `/${idLink}`)
+        posts[updatePostIndex] = object
+        return res.json(object);
     }
     else if (req.query.method === "delete") {
         const deletePostIndex = posts.findIndex((item) => item.id === idLink);
         posts.splice(deletePostIndex, 1);
-        res.redirect(303, `/`)
+        return res.json(posts);
     }
     else if (req.query.method === "comment") {
         const comment = req.body.comment
@@ -57,14 +59,14 @@ function editDeleteCommentPost(req, res) {
         let year = date.getFullYear();
         let currentDate = `${month}/${day}/${year}`;
         const id = Math.floor(Math.random() * 100)
-        result.comments.unshift(
-            {
-                id: id,
-                body: comment,
-                author: "Unknown person",
-                createdAt: currentDate
-            })
-        res.redirect(303, `/${idLink}`)
+        const object = {
+            id: id,
+            body: comment,
+            author: "Unknown person",
+            createdAt: currentDate
+        }
+        result.comments.unshift(object)
+        return res.json(object);
     }
 }
 
@@ -73,7 +75,7 @@ function getPostById(req, res) {
     const result = posts.find((item) => item.id === id)
     console.log(req.method, req.url);
     if (result)
-        res.render("detail.hbs", result);
+        res.json(result);
     else res.json({ error: "not valid" });
 }
 
